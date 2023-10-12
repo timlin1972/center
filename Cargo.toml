@@ -1,0 +1,10 @@
+[workspace]
+
+members = [
+    "common",
+    "center",
+    "plugin_wol",
+    "reg",
+]
+
+resolver = "2"
