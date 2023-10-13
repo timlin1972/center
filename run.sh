@@ -11,10 +11,12 @@ do
     killall $prog
 done
 
-cargo build
+cargo fmt
+cargo clippy
 
 for prog in ${progs[@]}
 do
+    cargo build --bin $prog
     cargo run --bin $prog&
     sleep 1
 done

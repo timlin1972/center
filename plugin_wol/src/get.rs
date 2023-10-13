@@ -15,9 +15,11 @@ pub async fn get(path: web::Path<String>) -> impl Responder {
     for device in device_list::DEVICE_LIST {
         if device.0 == path {
             info!(">>> wol: {} {}", device.0, device.1);
-            send_wol(MacAddr::from_str(device.1).unwrap(), None, None).unwrap();
+            if send_wol(MacAddr::from_str(device.1).unwrap(), None, None).is_ok() {
+                return HttpResponse::Ok().body("Ok");
+            }
         }
     }
 
-    HttpResponse::Ok().body(str)
+    HttpResponse::Ok().body("Failed")
 }

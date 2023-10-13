@@ -11,14 +11,18 @@ pub struct Reg {
     pub path: String,
 }
 
-pub async fn request(ip: &str, port: u16, path: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn request(
+    ip: &str,
+    port: u16,
+    path: &str,
+) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
     let reg = Reg {
         ip: ip.to_owned(),
         port,
         path: path.to_owned(),
     };
 
-    reqwest::Client::new()
+    let response = reqwest::Client::new()
         .post(format!(
             "http://{}:{}{}",
             super::CENTER_IP,
@@ -31,5 +35,5 @@ pub async fn request(ip: &str, port: u16, path: &str) -> Result<(), Box<dyn std:
 
     info!(">>> send: reg {ip}::{port}/{path}");
 
-    Ok(())
+    Ok(response)
 }

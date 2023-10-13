@@ -1,7 +1,6 @@
-use actix_web::{HttpResponse, Responder};
+use actix_web::{web, Responder};
 use log::info;
 use serde::Serialize;
-use serde_json::json;
 use systemstat::{saturating_sub_bytes, Platform, System};
 
 #[derive(Serialize, Debug)]
@@ -136,5 +135,5 @@ pub async fn get() -> impl Responder {
         sys_stat.cpu_temp = cpu_temp;
     }
 
-    HttpResponse::Ok().body(json!(sys_stat).to_string())
+    web::Json(sys_stat)
 }

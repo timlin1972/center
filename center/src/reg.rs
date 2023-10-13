@@ -36,7 +36,7 @@ pub async fn reg(
 
     reg_list.add(reg.into_inner());
 
-    HttpResponse::Ok().body("reg")
+    HttpResponse::Ok().body("Ok")
 }
 
 pub async fn print(data: web::Data<app_state::AppState>) -> impl Responder {
@@ -44,5 +44,5 @@ pub async fn print(data: web::Data<app_state::AppState>) -> impl Responder {
 
     let reg_list = data.reg_list.lock().unwrap();
 
-    HttpResponse::Ok().body(json!(reg_list.list).to_string())
+    web::Json(json!(reg_list.list))
 }
