@@ -6,9 +6,7 @@ use wol::{send_wol, MacAddr};
 
 use crate::device_list;
 
-pub async fn get(
-    path: web::Path<String>,
-) -> impl Responder {
+pub async fn get(path: web::Path<String>) -> impl Responder {
     let path: String = path.into_inner();
 
     let str = format!(">>> recv: get: path: {path}");

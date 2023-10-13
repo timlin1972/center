@@ -4,6 +4,7 @@ members = [
     "common",
     "center",
     "plugin_wol",
+    "plugin_sys_stat",
 ]
 
 resolver = "2"

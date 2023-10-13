@@ -8,19 +8,13 @@ pub const PATH: &str = "/plugin/{path:.*}";
 async fn request_get(
     path: &str,
     reg: &common::reg::Reg,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
     let uri = format!("http://{}:{}/{}", reg.ip, reg.port, path);
-    reqwest::Client::new()
-        .get(uri)
-        .send()
-        .await?;
+    let response = reqwest::Client::new().get(uri).send().await?;
 
-    info!(
-        ">>> send: get: {}:{}/{}",
-        reg.ip, reg.port, path
-    );
+    info!(">>> send: get: {}:{}/{}", reg.ip, reg.port, path);
 
-    Ok(())
+    Ok(response)
 }
 
 async fn request_post(
@@ -42,10 +36,7 @@ async fn request_post(
     Ok(())
 }
 
-pub async fn get(
-    path: web::Path<String>,
-    data: web::Data<app_state::AppState>,
-) -> impl Responder {
+pub async fn get(path: web::Path<String>, data: web::Data<app_state::AppState>) -> impl Responder {
     let path: String = path.into_inner();
 
     let str = format!(">>> recv: get: path: {path}");
@@ -57,7 +48,9 @@ pub async fn get(
     };
     for reg in &reg_list_list {
         if path.starts_with(&reg.path) {
-            request_get(&path, reg).await.unwrap();
+            if let Ok(response) = request_get(&path, reg).await {
+                return HttpResponse::Ok().body::<String>(response.text().await.unwrap());
+            }
         }
     }
 
