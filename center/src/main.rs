@@ -1,5 +1,6 @@
 use std::sync::{Arc, Mutex};
 
+use actix_files as fs;
 use actix_web::{web, App, HttpServer};
 use env_logger::Env;
 
@@ -21,11 +22,16 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(app_state::AppState {
                 reg_list: Arc::clone(&reg_list),
             }))
-            .route(common::ROOT, web::get().to(common::root))
+            .route(common::HELLO, web::get().to(common::hello))
             .route(common::reg::PATH, web::post().to(reg::reg))
             .route(common::reg::PRINT, web::get().to(reg::print))
             .route(plugin::PATH, web::get().to(plugin::get))
             .route(plugin::PATH, web::post().to(plugin::post))
+            .service(
+                fs::Files::new("/", "../client/build")
+                    .show_files_listing()
+                    .index_file("index.html"),
+            )
     })
     .bind((BINDING_IP, BINGING_PORT))?
     .run()

@@ -18,7 +18,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
-            .route(common::ROOT, web::get().to(common::root))
+            .route(common::HELLO, web::get().to(common::hello))
             .route(PATH_GET, web::get().to(get::get))
     })
     .bind((BINDING_IP, BINGING_PORT))?
