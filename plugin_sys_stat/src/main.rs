@@ -4,7 +4,7 @@ use env_logger::Env;
 mod get;
 
 const BINDING_IP: &str = "127.0.0.1";
-const BINGING_PORT: u16 = 9761;
+const BINGING_PORT: u16 = 9762;
 
 const PATH_GET: &str = "sys_stat";
 

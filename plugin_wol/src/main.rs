@@ -6,7 +6,7 @@ mod get;
 mod post;
 
 const BINDING_IP: &str = "127.0.0.1";
-const BINGING_PORT: u16 = 9760;
+const BINGING_PORT: u16 = 9761;
 
 const PATH_POST: &str = "wol";
 const PATH_GET: &str = "/wol/{path:.*}";
