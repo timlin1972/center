@@ -1,5 +1,6 @@
 use std::sync::{Arc, Mutex};
 
+use actix_cors::Cors;
 use actix_files as fs;
 use actix_web::{web, App, HttpServer};
 use env_logger::Env;
@@ -18,7 +19,9 @@ async fn main() -> std::io::Result<()> {
     let reg_list = Arc::new(Mutex::new(reg::RegList::new()));
 
     HttpServer::new(move || {
+        let cors = Cors::default().allow_any_origin().send_wildcard();
         App::new()
+            .wrap(cors)
             .app_data(web::Data::new(app_state::AppState {
                 reg_list: Arc::clone(&reg_list),
             }))
