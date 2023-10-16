@@ -4,6 +4,7 @@ use actix_cors::Cors;
 use actix_files as fs;
 use actix_web::{web, App, HttpServer};
 use env_logger::Env;
+use log::error;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 mod app_state;
@@ -30,12 +31,26 @@ async fn main() -> std::io::Result<()> {
 
     // https
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-    builder
-        .set_private_key_file(config.ca.private_key_file, SslFiletype::PEM)
-        .unwrap();
-    builder
-        .set_certificate_chain_file(config.ca.certificate_chain_file)
-        .unwrap();
+    if builder
+        .set_private_key_file(&config.ca.private_key_file, SslFiletype::PEM)
+        .is_err()
+    {
+        error!(
+            ">>> Failed to read/parse private key file: {}.",
+            &config.ca.private_key_file
+        );
+        std::process::exit(-1);
+    }
+    if builder
+        .set_certificate_chain_file(&config.ca.certificate_chain_file)
+        .is_err()
+    {
+        error!(
+            ">>> Failed to read/parse certificate key file: {}.",
+            &config.ca.certificate_chain_file
+        );
+        std::process::exit(-1);
+    }
 
     HttpServer::new(move || {
         let cors = Cors::default().allow_any_origin().send_wildcard();

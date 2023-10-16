@@ -4,6 +4,7 @@ progs=(
     center
     plugin_wol
     plugin_sys_stat
+    plugin_shutdown
 )
 
 for prog in ${progs[@]}
@@ -18,5 +19,5 @@ for prog in ${progs[@]}
 do
     cargo build --bin $prog
     cargo run --bin $prog&
-    sleep 1
+    sleep 5
 done

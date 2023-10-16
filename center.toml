@@ -1,6 +1,6 @@
 [ca]
-private_key_file = "/home/moxa/ca/rootCAKey.pem"
-certificate_chain_file = "/home/moxa/ca/rootCACert.pem"
+private_key_file = "/home/timlin/ca/rootCAKey.pem"
+certificate_chain_file = "/home/timlin/ca/rootCACert.pem"
 
 [client]
 serve_from = "../client/build"
