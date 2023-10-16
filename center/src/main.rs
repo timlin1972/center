@@ -61,8 +61,8 @@ async fn main() -> std::io::Result<()> {
                 user_list: Arc::clone(&user_list),
             }))
             .route(common::HELLO, web::get().to(common::hello))
-            .route(common::reg::PATH, web::post().to(reg::reg))
-            .route(common::reg::PRINT, web::get().to(reg::print))
+            .route(common::reg::PATH, web::post().to(reg::post))
+            .route(common::reg::PATH, web::get().to(reg::get))
             .route(auth::AUTH, web::post().to(auth::post))
             .route(plugin::PATH, web::get().to(plugin::get))
             .route(plugin::PATH, web::post().to(plugin::post))

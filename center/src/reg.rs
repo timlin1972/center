@@ -26,7 +26,7 @@ impl RegList {
     }
 }
 
-pub async fn reg(
+pub async fn post(
     reg: web::Json<common::reg::Reg>,
     data: web::Data<app_state::AppState>,
 ) -> impl Responder {
@@ -39,8 +39,8 @@ pub async fn reg(
     HttpResponse::Ok().body("Ok")
 }
 
-pub async fn print(data: web::Data<app_state::AppState>) -> impl Responder {
-    info!(">>> recv: reg::print");
+pub async fn get(data: web::Data<app_state::AppState>) -> impl Responder {
+    info!(">>> recv: get");
 
     let reg_list = data.reg_list.lock().unwrap();
 
