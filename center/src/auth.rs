@@ -30,7 +30,7 @@ pub async fn post(
         let sub = id.to_string();
         let iat = chrono::Utc::now().timestamp();
         let exp = chrono::Utc::now()
-            .checked_add_signed(chrono::Duration::seconds(60))
+            .checked_add_signed(chrono::Duration::minutes(15))
             .unwrap()
             .timestamp();
 

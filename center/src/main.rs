@@ -8,6 +8,7 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 mod app_state;
 mod auth;
+mod config;
 mod plugin;
 mod reg;
 mod user;
@@ -20,6 +21,9 @@ const BINDING_HTTPS: &str = "0.0.0.0:9760";
 async fn main() -> std::io::Result<()> {
     env_logger::Builder::from_env(Env::default().default_filter_or(common::LOG_LEVEL)).init();
 
+    // config
+    let config = config::Config::new();
+
     // app_data
     let reg_list = Arc::new(Mutex::new(reg::RegList::new()));
     let user_list = Arc::new(Mutex::new(user::UserList::new()));
@@ -27,10 +31,10 @@ async fn main() -> std::io::Result<()> {
     // https
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
     builder
-        .set_private_key_file(common::CA_PRIVATE_KEY_FILE, SslFiletype::PEM)
+        .set_private_key_file(config.ca.private_key_file, SslFiletype::PEM)
         .unwrap();
     builder
-        .set_certificate_chain_file(common::CA_CERTIFICATE_CHAIN_FILE)
+        .set_certificate_chain_file(config.ca.certificate_chain_file)
         .unwrap();
 
     HttpServer::new(move || {
@@ -47,7 +51,7 @@ async fn main() -> std::io::Result<()> {
             .route(auth::AUTH, web::post().to(auth::post))
             .route(plugin::PATH, web::get().to(plugin::get))
             .route(plugin::PATH, web::post().to(plugin::post))
-            .service(fs::Files::new("/", "../client/build").index_file("index.html"))
+            .service(fs::Files::new("/", &config.client.serve_from).index_file("index.html"))
     })
     .bind((BINDING_IP, BINDING_PORT))?
     .bind_openssl(BINDING_HTTPS, builder)?
