@@ -5,6 +5,8 @@ use serde_json::json;
 
 use crate::device_list;
 
+pub const PATH_GET: &str = "/wol";
+
 #[derive(Serialize, Deserialize, Debug)]
 struct WolDevice {
     name: String,

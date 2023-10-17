@@ -18,10 +18,11 @@ async fn request_get(
 }
 
 async fn request_post(
+    path: &str,
     reg: &common::reg::Reg,
     payload: &serde_json::Value,
 ) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
-    let uri = format!("http://{}:{}/{}", reg.ip, reg.port, reg.path);
+    let uri = format!("http://{}:{}/{}", reg.ip, reg.port, path);
     let response = reqwest::Client::new()
         .post(uri)
         .json(payload)
@@ -89,7 +90,7 @@ pub async fn post(
     };
     for reg in &reg_list_list {
         if path.starts_with(&reg.path) {
-            if let Ok(response) = request_post(reg, &payload).await {
+            if let Ok(response) = request_post(&path, reg, &payload).await {
                 return HttpResponse::Ok().body::<String>(response.text().await.unwrap());
             }
         }
