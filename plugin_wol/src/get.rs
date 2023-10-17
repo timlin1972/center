@@ -1,25 +1,28 @@
-use std::str::FromStr;
-
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{web, Responder};
 use log::info;
-use wol::{send_wol, MacAddr};
+use serde::{Deserialize, Serialize};
+use serde_json::json;
 
 use crate::device_list;
 
-pub async fn get(path: web::Path<String>) -> impl Responder {
-    let path: String = path.into_inner();
+#[derive(Serialize, Deserialize, Debug)]
+struct WolDevice {
+    name: String,
+    mac: String,
+    ip: String,
+}
 
-    let str = format!(">>> recv: get: path: {path}");
-    info!("{str}");
+pub async fn get() -> impl Responder {
+    info!(">>> recv: get");
 
-    for device in device_list::DEVICE_LIST {
-        if device.0 == path {
-            info!(">>> wol: {} {}", device.0, device.1);
-            if send_wol(MacAddr::from_str(device.1).unwrap(), None, None).is_ok() {
-                return HttpResponse::Ok().body("Ok");
-            }
-        }
-    }
+    let wol_devices: Vec<WolDevice> = device_list::DEVICE_LIST
+        .iter()
+        .map(|x| WolDevice {
+            name: x.0.to_owned(),
+            mac: x.1.to_owned(),
+            ip: x.2.to_owned(),
+        })
+        .collect();
 
-    HttpResponse::Ok().body("Failed")
+    web::Json(json!(wol_devices))
 }

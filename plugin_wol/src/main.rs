@@ -9,7 +9,7 @@ const BINDING_IP: &str = "127.0.0.1";
 const BINGING_PORT: u16 = 9761;
 
 const PATH_POST: &str = "wol";
-const PATH_GET: &str = "/wol/{path:.*}";
+const PATH_GET: &str = "/wol";
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
