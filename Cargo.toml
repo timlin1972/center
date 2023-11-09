@@ -6,6 +6,7 @@ members = [
     "plugin_wol",
     "plugin_shutdown",
     "plugin_sys_stat",
+    "plugin_screen",
 ]
 
 resolver = "2"

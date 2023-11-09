@@ -2,6 +2,7 @@ use actix_web::{HttpResponse, Responder};
 use log::info;
 
 pub mod reg;
+pub mod utils;
 
 pub const CENTER_IP: &str = "127.0.0.1";
 pub const CENTER_PORT: u16 = 9759;
