@@ -12,6 +12,8 @@ pub const LOG_LEVEL: LevelFilter = LevelFilter::Info;
 pub const LOG_SERVER: &str = "==================================================";
 pub const LOG_PLUGIN: &str = "--------------------------------------------------";
 
+pub const LOG_FILE: &str = "server.log";
+
 pub const CONFIG_FILE: &str = "center.toml";
 
 pub const HELLO: &str = "/hello";

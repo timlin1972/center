@@ -6,6 +6,7 @@ progs=(
     plugin_sys_stat
     plugin_shutdown
     plugin_screen
+    plugin_log
 )
 
 for prog in ${progs[@]}

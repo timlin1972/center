@@ -4,7 +4,7 @@ use log4rs::config::{Appender, Config, Root};
 
 pub fn init() {
     let stdout = ConsoleAppender::builder().build();
-    let logfile = FileAppender::builder().build("server.log").unwrap();
+    let logfile = FileAppender::builder().build(super::LOG_FILE).unwrap();
 
     let config = Config::builder()
         .appender(Appender::builder().build("stdout", Box::new(stdout)))

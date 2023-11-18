@@ -10,10 +10,14 @@
 | 9762  | plugin sys stat   |
 | 9763  | plugin shutdown   |
 | 9764  | plugin screen     |
+| 9765  | plugin log        |
 
 ## To add a plugin
 
 ### run.sh
+Add `progs`
+
+### server.sh
 Add `progs`
 
 ### Cargo.toml
