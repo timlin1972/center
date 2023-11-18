@@ -24,3 +24,8 @@ Add `members`
 
 ## Run
 `./run.sh`
+
+# systemd
+sudo vim /etc/systemd/system/rust-server.service
+sudo systemctl start rust-server.service
+sudo systemctl enable rust-server.service
