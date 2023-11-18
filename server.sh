@@ -17,6 +17,6 @@ done
 for prog in ${progs[@]}
 do
     echo "run $prog"
-    ./target/debug/$prog&
-    sleep 20
+    ./target/release/$prog&
+    sleep 15
 done

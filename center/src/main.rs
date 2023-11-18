@@ -3,8 +3,7 @@ use std::sync::{Arc, Mutex};
 use actix_cors::Cors;
 use actix_files as fs;
 use actix_web::{web, App, HttpServer};
-use env_logger::Env;
-use log::error;
+use log::{error, info};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 mod app_state;
@@ -20,7 +19,9 @@ const BINDING_HTTPS: &str = "0.0.0.0:9760";
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::Builder::from_env(Env::default().default_filter_or(common::LOG_LEVEL)).init();
+    // logger
+    common::server_log::init();
+    info!("{}", common::LOG_SERVER);
 
     // config
     let config = config::Config::new();

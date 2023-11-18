@@ -15,10 +15,10 @@ done
 
 cargo fmt
 cargo clippy
+cargo build --release
 
 for prog in ${progs[@]}
 do
-    cargo build --bin $prog
-    cargo run --bin $prog&
-    sleep 5
+    ./target/release/$prog&
+    sleep 1
 done

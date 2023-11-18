@@ -1,5 +1,5 @@
 use actix_web::{web, App, HttpServer};
-use env_logger::Env;
+use log::info;
 
 mod device_list;
 mod get;
@@ -10,7 +10,9 @@ const BINGING_PORT: u16 = 9761;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::Builder::from_env(Env::default().default_filter_or(common::LOG_LEVEL)).init();
+    // logger
+    common::server_log::init();
+    info!("{}", common::LOG_PLUGIN);
 
     common::reg::request(BINDING_IP, BINGING_PORT, post::PATH_POST)
         .await
